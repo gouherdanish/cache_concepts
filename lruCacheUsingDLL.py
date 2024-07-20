@@ -20,17 +20,20 @@ class DLL:
         self.tail.prev = self.head
 
     def insert(self,node):
-        "Inserts the given node just before the tail"
+        """
+        Inserts the given node just before the tail
+        O(1)
+        """
         node.prev = self.tail.prev
         node.next = self.tail
         self.tail.prev.next = node
         self.tail.prev = node
 
-
     def delete(self,node):
         """
         Deletes the given node from its position. 
         No need to traverse from head to the node
+        O(1)
         """
         node.next.prev = node.prev
         node.prev.next = node.next
@@ -64,6 +67,14 @@ class LRUCache:
         self.cache = {}
 
     def get(self,key):
+        """
+        If key is present in cache, 
+            remove this node from the linked list and 
+            add it to the tail of the linked list (thus making it the most recently used item)
+        else return -1
+
+        O(1)
+        """
         if key in self.cache:
             node = self.cache[key]
             self.dll.delete(node)
@@ -72,6 +83,14 @@ class LRUCache:
         return -1
 
     def put(self,key,val):
+        """
+        if key is present in cache,
+            remove this node from linked list
+        Create a new node and add it to the tail of linked list
+        If this exceeds capacity,
+            find the least recently used node (the head of the linked list)
+            remove this from linked list and cache both
+        """
         if key in self.cache:
             self.dll.delete(self.cache[key])
         node = Node(key,val)
